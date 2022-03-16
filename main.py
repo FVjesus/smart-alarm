@@ -1,10 +1,35 @@
-import lcddriver from "./lcd"
 import time
 
-mylcd = lcddriver.lcd()
+import clockThread
 
-while True:
-  mylcd.lcd_display_string(time.strftime('%I:%M:%S %p'), 1)
-  mylcd.lcd_display_string(time.strftime('%a %b %d, 20%y'), 2)
-  mylcd.lcd_display_string('Next alarm:',3)
-  mylcd.lcd_display_string('It so iz',4)
+class smartAlarm:
+  def __init__(self): 
+    self.stopping = False
+  
+  def stop(self):
+    self.stopping = True
+  
+  def execute(self):
+    print("Starting smart alarm...")
+
+    print("Loading clock...")
+    clock = clockThread.clockThread()
+    clock.setDaemon(True)
+
+    print("Starting clock")
+    clock.start()
+
+    try:
+      while(self.stopping is False):
+        time.sleep(1)
+    except (KeyboardInterrupt, SystemExit):
+      print("Interrupted, shutting down")
+    
+    print("Stopping all services")
+    clock.stop()
+    print("Shutdow complet, now exiting")
+
+    time.sleep(2) #To give threads time to shut down
+
+alarm = smartAlarm()
+alarm.execute()
