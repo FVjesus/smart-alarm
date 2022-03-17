@@ -1,6 +1,7 @@
 import time
 
 import clockThread
+import alarmThread
 
 class smartAlarm:
   def __init__(self): 
@@ -16,8 +17,15 @@ class smartAlarm:
     clock = clockThread.clockThread()
     clock.setDaemon(True)
 
+    print("Loading alarm...")
+    alarm = alarmThread.alarmThread()
+    alarm.setDaemon(True)
+
     print("Starting clock")
     clock.start()
+
+    print("Starting alarm")
+    alarm.start()
 
     try:
       while(self.stopping is False):
@@ -27,9 +35,11 @@ class smartAlarm:
     
     print("Stopping all services")
     clock.stop()
+    alarm.stop()
+
     print("Shutdow complet, now exiting")
 
-    time.sleep(2) #To give threads time to shut down
+    time.sleep(5) #To give threads time to shut down
 
 alarm = smartAlarm()
 alarm.execute()

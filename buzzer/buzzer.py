@@ -1,7 +1,15 @@
 from gpiozero import Buzzer
 from time import sleep
 
-buzzer = Buzzer(17)
+class alarmSound():
 
-while True:
-  buzzer.beep()
+  def __init__(self):
+    self.buzzer = Buzzer(17)
+
+  def beep(self):
+    self.buzzer.on()
+    sleep(1)
+    self.buzzer.off()
+    sleep(1)
+    self.buzzer.on()
+    sleep(3)
