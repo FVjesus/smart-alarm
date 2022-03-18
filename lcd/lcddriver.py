@@ -141,3 +141,9 @@ class lcd:
    def lcd_clear(self):
       self.lcd_write(LCD_CLEARDISPLAY)
       self.lcd_write(LCD_RETURNHOME)
+   
+   def clear(self):
+      self.lcd_display_string("", 1)
+      self.lcd_display_string("", 2)
+      self.lcd_display_string("", 3)
+      self.lcd_display_string("", 4)
